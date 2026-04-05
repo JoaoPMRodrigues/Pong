@@ -22,6 +22,7 @@ while True:
     bola.set_position(x, y)
     if x < 0 or x > (800 - bola.width):
         velocidade_x *= -1.05
+        velocidade_y *= 1.05
     if y < 0 or y > (600 - bola.height):
         velocidade_y *= -1
 
