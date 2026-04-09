@@ -2,6 +2,7 @@ from pplay.window import *
 from pplay.sprite import *
 from pplay.collision import *
 from pplay.keyboard import *
+from random import randint
 from rich.traceback import install
 install()
 
@@ -10,6 +11,16 @@ def reset_bola(janela, bola):
     bola.x = janela.width//2-bola.width//2
     bola.y = janela.height//2-bola.height//2
     vx = vy = 300
+    while True:
+        aleatorio = randint(-1, 1)
+        if aleatorio != 0:
+            vx *= aleatorio
+            break
+    while True:
+        aleatorio = randint(-1, 1)
+        if aleatorio != 0:
+            vy *= aleatorio
+            break
     return vx, vy, False
 
 
@@ -44,12 +55,26 @@ def movimento_ia(barra, mudou, vel, dt, y):
     return False, vel
 
 
-def inverte(v):
+def inverte(bola, v, y):
+    limite_inferior = 0
+    limite_superior = y-bola.height
+
+    if bola.y < limite_inferior:
+        bola.y = limite_inferior
+    elif bola.y > limite_superior:
+        bola.y = limite_superior
+
     return v*(-1), True
 
 
-def inverte_sentido(vx, vy):
-    return vx*-1.05, vy*1.05
+def inverte_sentido(bola, barra, vx, vy, aceleracao):
+    vx *= -aceleracao
+    if vx > 0:  # Colisão com a barra da esquerda
+        bola.x = barra.x + barra.width
+    else:  # Colisão com a barra da direita
+        bola.x = barra.x - bola.width
+
+    return vx, vy * aceleracao
 
 
 def placar(janela, texto):
@@ -69,6 +94,7 @@ bola.x = janela.width//2-bola.width//2
 bola.y = janela.height//2-bola.height//20
 vx_bola = 300
 vy_bola = 300
+aceleracao = 1.01
 
 # Define barra1 (Player)
 barra1 = Sprite("Sprites/barra.png", 1)
@@ -102,6 +128,7 @@ while True:
         # Movimento da bola
         movimento_bola(bola, vx_bola, vy_bola, dt)
 
+        # Reset após pontução
         if bola.x < 10:
             vx_bola, vy_bola, inicio, vel_b2 = reset(
                 janela, bola, barra1, barra2)
@@ -111,15 +138,17 @@ while True:
                 janela, bola, barra1, barra2)
             ponto_player += 1
 
+        # Colisão com os limites da tela
         if bola.y < 0 or bola.y > (y - bola.height):
-            vy_bola, mudou = inverte(vy_bola)
+            vy_bola, mudou = inverte(bola, vy_bola, y)
 
-        # Colisão
-
+        # Colisão com as barras
         if Collision.collided(barra1, bola):
-            vx_bola, vy_bola = inverte_sentido(vx_bola, vy_bola)
+            vx_bola, vy_bola = inverte_sentido(
+                bola, barra1, vx_bola, vy_bola, aceleracao)
         elif Collision.collided(barra2, bola):
-            vx_bola, vy_bola = inverte_sentido(vx_bola, vy_bola)
+            vx_bola, vy_bola = inverte_sentido(
+                bola, barra2, vx_bola, vy_bola, aceleracao)
 
         # Movimento da barra1 (Player)
         movimento_player(barra1, teclado, dt, y)
