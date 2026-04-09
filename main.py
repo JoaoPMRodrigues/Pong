@@ -2,84 +2,12 @@ from pplay.window import *
 from pplay.sprite import *
 from pplay.collision import *
 from pplay.keyboard import *
-from random import randint
+from lib.reset import *
+from lib.movimento import *
+from lib.inverte import *
+from lib.placar import *
 from rich.traceback import install
 install()
-
-
-def reset_bola(janela, bola):
-    bola.x = janela.width//2-bola.width//2
-    bola.y = janela.height//2-bola.height//2
-    vx = vy = 300
-    while True:
-        aleatorio = randint(-1, 1)
-        if aleatorio != 0:
-            vx *= aleatorio
-            break
-    while True:
-        aleatorio = randint(-1, 1)
-        if aleatorio != 0:
-            vy *= aleatorio
-            break
-    return vx, vy, False
-
-
-def reset_barra(janela, barra):
-    barra.y = janela.height//2-barra.height//2
-    return 350
-
-
-def reset(janela, bola, barra1, barra2):
-    vxb, vyb, ini = reset_bola(janela, bola)
-    vb1 = reset_barra(janela, barra1)  # Velocidade do player desconsidera
-    vb2 = reset_barra(janela, barra2)
-    return vxb, vyb, ini, vb2
-
-
-def movimento_bola(bola, vx, vy, dt):
-    bola.x += vx*dt
-    bola.y += vy*dt
-
-
-def movimento_player(barra, teclado, dt, y):
-    if teclado.key_pressed("UP") and barra.y > 0:
-        barra.y -= 300 * dt
-    elif teclado.key_pressed("DOWN") and barra.y < (y-barra.height):
-        barra.y += 300 * dt
-
-
-def movimento_ia(barra, mudou, vel, dt, y):
-    barra.y += vel*dt
-    if mudou or barra.y < 0 or barra.y > (y - barra.height):
-        vel *= -1
-    return False, vel
-
-
-def inverte(bola, v, y):
-    limite_inferior = 0
-    limite_superior = y-bola.height
-
-    if bola.y < limite_inferior:
-        bola.y = limite_inferior
-    elif bola.y > limite_superior:
-        bola.y = limite_superior
-
-    return v*(-1), True
-
-
-def inverte_sentido(bola, barra, vx, vy, aceleracao):
-    vx *= -aceleracao
-    if vx > 0:  # Colisão com a barra da esquerda
-        bola.x = barra.x + barra.width
-    else:  # Colisão com a barra da direita
-        bola.x = barra.x - bola.width
-
-    return vx, vy * aceleracao
-
-
-def placar(janela, texto):
-    janela.draw_text(texto, janela.width//2 - 60, 20, cor="white", tamanho=50)
-
 
 # Define janela
 x = 800

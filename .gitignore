@@ -1,0 +1,19 @@
+# Bytecode do Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Arquivos específicos de versões do Python
+*.cpython-*
+
+# Ambientes virtuais
+venv/
+.env/
+.venv/
+
+# Arquivos do sistema
+.DS_Store
+Thumbs.db
+
+# Configurações do VS Code 
+.vscode/
