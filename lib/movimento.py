@@ -13,6 +13,13 @@ def movimento_player(barra, teclado, dt, y):
 
 def movimento_ia(barra, mudou, vel, dt, y):
     barra.y += vel*dt
-    if mudou or barra.y < 0 or barra.y > (y - barra.height):
+    if mudou:
         vel *= -1
+    elif barra.y < 0:
+        barra.y = 0
+        vel *= -1
+    elif barra.y > (y - barra.height):
+        barra.y = y-barra.height
+        vel *= -1
+
     return False, vel

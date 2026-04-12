@@ -22,7 +22,7 @@ bola.x = janela.width//2-bola.width//2
 bola.y = janela.height//2-bola.height//20
 vx_bola = 300
 vy_bola = 300
-aceleracao = 1.01
+aceleracao = 1.03
 
 # Define barra1 (Player)
 barra1 = Sprite("Sprites/barra.png", 1)
@@ -33,7 +33,7 @@ barra1.y = janela.height//2-barra1.height//2
 barra2 = Sprite("Sprites/barra.png", 1)
 barra2.x = 780
 barra2.y = janela.height//2-barra2.height//2
-vel_b2 = 350
+vel_b2 = 300
 mudou = False
 
 # Define placar
