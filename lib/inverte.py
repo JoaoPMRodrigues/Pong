@@ -11,11 +11,11 @@ def inverte(bola, v, y):
     return v*(-1), True
 
 
-def inverte_sentido(bola, barra, vx, vy, aceleracao):
+def inverte_sentido(bola, barra, vx, vy, aceleracao, toques):
     vx *= -aceleracao
     if vx > 0:  # Colisão com a barra da esquerda
         bola.x = barra.x + barra.width
     else:  # Colisão com a barra da direita
         bola.x = barra.x - bola.width
 
-    return vx, vy * aceleracao
+    return vx, vy * aceleracao, toques+1

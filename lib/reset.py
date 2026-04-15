@@ -20,11 +20,13 @@ def reset_bola(janela, bola):
 
 def reset_barra(janela, barra):
     barra.y = janela.height//2-barra.height//2
-    return 350
+    return 300
 
 
 def reset(janela, bola, barra1, barra2):
     vxb, vyb, ini = reset_bola(janela, bola)
-    vb1 = reset_barra(janela, barra1)  # Velocidade do player desconsidera
+    # Velocidade do player desconsidera
+    vb1 = reset_barra(janela, barra1)
     vb2 = reset_barra(janela, barra2)
-    return vxb, vyb, ini, vb2
+
+    return vxb, vyb, ini, vb2,
