@@ -157,6 +157,9 @@ while True:
         barra1.draw()
         barra2.draw()
 
+    if teclado.key_pressed("ESC"):
+        break
+
     bola.draw()
     placar(janela, f"{ponto_player} X {ponto_maquina}")
     janela.update()
